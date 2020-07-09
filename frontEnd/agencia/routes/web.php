@@ -10,9 +10,23 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/admin', function () {
-    return view('admin.home');
+
+Auth::routes();
+Route::get('/','AgenciaController@index')->name('index');
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+Route::group(['middleware' => ['auth']] , function () {
+    Route::get('ofertas','OfertasController@createOfertas')->name('ofertas');
+    Route::post('upload','OfertasController@store');
 });
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+// Route::get('/admin', function () {
+//     return view('admin.home');
+// });
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+

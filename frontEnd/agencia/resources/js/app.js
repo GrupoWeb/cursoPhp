@@ -12,7 +12,12 @@ require('perfect-scrollbar');
 require('@coreui/coreui');
 require('chart.js');
 
+
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 window.Vue = require('vue');
+Vue.use(ElementUI);
 
 /**
  * The following block of code may be used to automatically register your
@@ -25,7 +30,8 @@ window.Vue = require('vue');
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.component('index-component', require('./components/frontend/index.vue').default);
+Vue.component('oferta-component', require('./components/frontend/oferta.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
