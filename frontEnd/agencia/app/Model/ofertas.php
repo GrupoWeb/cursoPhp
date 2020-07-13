@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class ofertas extends Model
 {
-    protected $fillable = ['path_img'];
+    protected $fillable = ['nombre_oferta','precio_oferta','descripcion','id_img'];
 }

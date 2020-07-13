@@ -17,6 +17,7 @@
                     name="file[]" 
                     :headers="{ 'X-CSRF-TOKEN': csrf}" 
                     :auto-upload="false"
+                    :on-success="cargaSuccess"
                     :limit="1"
                     :on-exceed="handleExceed"
                     :file-list="form.fileList"
@@ -73,20 +74,22 @@ export default {
         //     console.log(file);
         // },
         cargaSuccess(response, file, fileList) { 
-            
-            
-            var url = "/Uploadfile";
-            axios
-                .post(url, {
-                id_evento: this.id,
-                id_file: file.uid
+                var vm = this
+                _.map(response, function (data) {
+                    file['uid'] = data
+                    
                 })
-                .then(response => {
-                this.$message.success(`Documento Cargado`);
-                })
-                .catch(error => {
-                console.log(error.message);
-                });
+                vm.fileList = fileList;
+                            
+            console.log(file.uid);
+            axios.post(this.request_list.request_upload,{
+                nombre: this.form.identificador,
+                precio: this.form.precio,
+                descripcion: this.form.descripcion,
+                id: file.uid
+            }).then(response => {
+                console.log('dato guardado');
+            })
         },
         handleExceed(files, fileList) {
             this.$message.warning(
@@ -99,10 +102,6 @@ export default {
             
             this.$refs[form].validate((valid) => {
                 if(valid){
-                    // axios.post(request_list.request_upload,{
-
-                    // })
-                    // console.log(this.file);
                     this.$refs.uploadFile.submit();
                 }
             })
