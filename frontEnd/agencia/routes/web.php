@@ -18,6 +18,7 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::group(['middleware' => ['auth']] , function () {
     Route::get('ofertas','OfertasController@createOfertas')->name('ofertas');
     Route::post('upload','OfertasController@store');
+    Route::post('uploadfile','OfertasController@uploadFile')->name('upload');
 });
 
 

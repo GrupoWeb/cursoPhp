@@ -1,26 +1,26 @@
 <template>
     <div class="col-lg-9 my-4">
         <el-form ref="form" :model="form" >
-            <el-form-item label="Identificador:">
+            <el-form-item label="Identificador:" prop="identificador" :rules ="[{ required: true, message: 'Coloque un identificador' , trigger: 'blur'}]">
                 <el-input v-model="form.identificador"></el-input>
             </el-form-item>
-            <el-form-item label="Descripción:">
+            <el-form-item label="Descripción:" prop="descripcion" :rules="[{ required: true, message: 'Coloque una descripcion' , trigger: 'blur'}]">
                 <el-input v-model="form.descripcion"></el-input>
             </el-form-item>
-            <el-form-item label="Precio de Oferta:">
+            <el-form-item label="Precio de Oferta:" prop="precio" :rules="[{ required: true, message: 'Coloque un precio' , trigger: 'blur'}]">
                 <el-input v-model="form.precio"></el-input>
             </el-form-item>
-            <el-form-item label="Imagen de Referencia">
+            <el-form-item label="Imagen de Referencia" prop="fileList" >
                 <el-upload 
-                    :action="'/upload'" 
+                    ref="uploadFile"
+                    action="upload"
                     name="file[]" 
-                    :headers="{ 'X-CSRF-TOKEN': csrf}"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :on-success="cargaSuccess"
+                    :headers="{ 'X-CSRF-TOKEN': csrf}" 
+                    :auto-upload="false"
                     :limit="1"
                     :on-exceed="handleExceed"
-                    :file-list="fileList"
+                    :file-list="form.fileList"
+                    list-type="picture" 
                     >
                         <el-button size="small" type="primary">Clic para subir archivo</el-button>
                         <div
@@ -30,7 +30,7 @@
                     </el-upload>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit">Guardar</el-button>
+                <el-button type="primary" @click="onSubmit('form')">Guardar</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -47,48 +47,46 @@ export default {
                 identificador: "",
                 descripcion: "",
                 precio: "",
+                fileList:[],
             },
-            fileList:[],
-            evento_id: ""
+            evento_id: "",
+            request_list:{
+                request_upload: 'uploadfile'
+            }
+
 
         }
     },
     methods: {
-        handleRemove(file, fileList) {
-            let vm = this
-            axios.delete('/upload/' + file.uid)
-                .then(function () {
-                    let index = _.findIndex(vm.fileList, ['uid', file.uid])
-                    vm.$delete(vm.fileList, index)
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }, 
-        handlePreview(file) {
-            console.log(file);
-        },
-        cargaSuccess(response, file, fileList) {
-            let id_fila = ''
-            var vm = this
-                _.map(response, function (data) {
-                    file['uid'] = data
-                    
-                })
-                vm.fileList = fileList;
+        // handleRemove(file, fileList) {
+        //     let vm = this
+        //     axios.delete('/upload/' + file.uid)
+        //         .then(function () {
+        //             let index = _.findIndex(vm.fileList, ['uid', file.uid])
+        //             vm.$delete(vm.fileList, index)
+        //         })
+        //         .catch(function (error) {
+        //             console.log(error);
+        //         });
+        // }, 
+        // handlePreview(file) {
+        //     console.log(file);
+        // },
+        cargaSuccess(response, file, fileList) { 
             
-            // var url = "/Uploadfile";
-            // axios
-            //     .post(url, {
-            //     id_evento: this.id,
-            //     id_file: file.uid
-            //     })
-            //     .then(response => {
-            //     this.$message.success(`Documento Cargado`);
-            //     })
-            //     .catch(error => {
-            //     console.log(error.message);
-            //     });
+            
+            var url = "/Uploadfile";
+            axios
+                .post(url, {
+                id_evento: this.id,
+                id_file: file.uid
+                })
+                .then(response => {
+                this.$message.success(`Documento Cargado`);
+                })
+                .catch(error => {
+                console.log(error.message);
+                });
         },
         handleExceed(files, fileList) {
             this.$message.warning(
@@ -97,8 +95,17 @@ export default {
                 } archivos esta vez, añade hasta ${files.length + fileList.length}`
             );
         },
-        onSubmit() {
+        onSubmit(form) {
             
+            this.$refs[form].validate((valid) => {
+                if(valid){
+                    // axios.post(request_list.request_upload,{
+
+                    // })
+                    // console.log(this.file);
+                    this.$refs.uploadFile.submit();
+                }
+            })
         }
     },
 }

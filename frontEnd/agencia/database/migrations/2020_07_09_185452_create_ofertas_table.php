@@ -18,8 +18,10 @@ class CreateOfertasTable extends Migration
             $table->string('nombre_oferta');
             $table->string('precio_oferta');
             $table->string('descripcion');
-            $table->string('path_img');
+            $table->integer('id_img')->unsigned();
             $table->timestamps();
+
+            $table->foreign('id_img')->references('id')->on('uploads');
         });
     }
 
