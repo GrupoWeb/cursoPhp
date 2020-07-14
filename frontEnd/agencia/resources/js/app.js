@@ -32,6 +32,8 @@ Vue.use(ElementUI);
 
 Vue.component('index-component', require('./components/frontend/index.vue').default);
 Vue.component('oferta-component', require('./components/frontend/oferta.vue').default);
+Vue.component('agendar-component', require('./components/frontend/agendar.vue').default);
+Vue.component('consulta-component', require('./components/frontend/consulta.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

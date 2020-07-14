@@ -14,7 +14,7 @@ class CreateOfertasTable extends Migration
     public function up()
     {
         Schema::create('ofertas', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('nombre_oferta');
             $table->string('precio_oferta');
             $table->string('descripcion');

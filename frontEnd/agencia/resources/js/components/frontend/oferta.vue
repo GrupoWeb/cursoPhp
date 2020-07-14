@@ -88,7 +88,27 @@ export default {
                 descripcion: this.form.descripcion,
                 id: file.uid
             }).then(response => {
-                console.log('dato guardado');
+                const status = JSON.parse(response.status);
+
+                if (status == "200") {
+                    this.resetForm('form');
+                    console.log(response);
+                    this.$notify({
+                        title: 'Success',
+                        message: 'Oferta guardada',
+                        type: 'success'
+                        });
+                }else{
+                    this.$notify.error({
+                        title: 'error',
+                        message: 'No se puede almacenar el dato por el momento.',
+                        });
+                }
+            }).catch(err => {
+                    this.$notify.error({
+                        title: 'error',
+                        message: 'Error en el sistema, por favor intente más tarde',
+                        });
             })
         },
         handleExceed(files, fileList) {
@@ -105,6 +125,9 @@ export default {
                     this.$refs.uploadFile.submit();
                 }
             })
+        },
+        resetForm(form){
+            this.$refs[form].resetFields();
         }
     },
 }

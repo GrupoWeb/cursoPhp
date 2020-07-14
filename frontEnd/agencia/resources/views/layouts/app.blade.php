@@ -17,7 +17,7 @@
         <div>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <div class="container">
-                <a class="navbar-brand" href="#">Agencia de Viajes</a>
+                <a class="navbar-brand" href="./">Agencia de Viajes</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -29,10 +29,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Consultar Agenda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Agendar un viaje</a>
+                        <a class="nav-link" href="/consulta">Consultar Agenda</a>
                     </li>
                     </ul>
                 </div>
@@ -45,7 +42,7 @@
                         @if(Route::has('login'))
                           <div class="list-group">
                             @auth
-                              <a href="#" class="list-group-item">Agendar</a>
+                              <a href="/agenda" class="list-group-item">Agendar</a>
                               <a href="/logout" class="list-group-item">Salir del sistema</a>
                               <a href="/ofertas" class="list-group-item">Administrar Ofertas</a>
                             @else
